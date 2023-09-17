@@ -73,7 +73,7 @@ class UsuariosController {
             const match = await bcrypt.compare(senha, usuario.senha)
 
             if (match) {
-                const token = jwt.sign({usuario_id: usuario.id}, process.env['ACCESS_SECRET'], {expiresIn: 30})
+                const token = jwt.sign({usuario_id: usuario.id}, process.env['ACCESS_SECRET'], {expiresIn: '1d'})
 
                 return res.status(201).cookie("ACCESS_TOKEN", 'Bearer ' + token, {
                     secure: process.env['ENV'] !== "dev" ? true : false,

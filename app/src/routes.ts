@@ -13,7 +13,7 @@ routes.post('/cadastro', UsuariosController.create)
 
 routes.use(authMiddleware)
 
-routes.get('/cookie', (req, res)=> res.json({usuario_id: req.body.usuario_id}))
+routes.get('/cookie', (req, res)=> res.json(req.body.usuario_id))
 
 
 export default routes
