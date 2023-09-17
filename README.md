@@ -29,7 +29,7 @@ PORT = 5500
 ORIGIN = "http://localhost:3000" # Domínio do cliente (frontend)
 ENV = "dev"
 
-ACCESS_SECRET = "adicione_seu_secret_aqui" # Secret personalizado para gerar o tokens
+ACCESS_SECRET = "adicione_seu_secret_aqui" # Secret personalizado para gerar os tokens de autenticação
 
 DATABASE_HOST = "localhost"
 DATABASE_USERNAME = "root"
@@ -39,4 +39,4 @@ DATABASE_PORT = 3306
 
 ```
 
-* [x] Por fim, acesse a pasta 'app' (`cd app`) e execute o comando `yarn start` ou `npm start` (dependendo do package maneger escolhido).
+* [x] Por fim, acesse a pasta 'app' (`cd app`) e execute o comando `yarn start` ou `npm start` (dependendo do package manager escolhido).
