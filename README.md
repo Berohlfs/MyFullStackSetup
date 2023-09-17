@@ -17,3 +17,26 @@ Meu mini framework pessoal de Node.js.
 * `nodemon` para manter o servidor ininterrupto durante o desenvolvimento.
 * `typescript` para incrementar tipagem estática e IntelliSense avançado ao projeto.
 * `ts-node` para transpilar o código de TypeScript para JavaScript durante o desenvolvimento.
+
+## Como começar
+
+1. Instale os pacotes das dependências do projeto.
+1. Adicione um arquivo '.env' dentro da pasta 'app' (*este tipo de arquivo fica listado como 'gitignore', ou seja, nunca devera ser 'commitado'*).
+1. Configure o arquivo '.env' da seguinte forma:
+
+```
+PORT = 5500
+ORIGIN = "http://localhost:3000" # Domínio do cliente (frontend)
+ENV = "dev"
+
+ACCESS_SECRET = "adicione_seu_secret_aqui" # Secret personalizado para gerar o tokens
+
+DATABASE_HOST = "localhost"
+DATABASE_USERNAME = "root"
+DATABASE_PASSWORD = "senha"
+DATABASE_NAME = "mybd"
+DATABASE_PORT = 3306
+
+```
+
+1. Por fim, acesse a pasta 'app' (`cd app`) e execute o comando `yarn start` ou `npm start` (dependendo do package maneger escolhido).

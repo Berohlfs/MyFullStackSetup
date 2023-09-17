@@ -1,4 +1,4 @@
-# TypeORM
+# Manual TypeORM
 
 [Documentação](https://typeorm.io/)
 

@@ -1,6 +1,8 @@
 import { DataSource } from "typeorm"
 // Libs
 import dotenv from 'dotenv'
+// Node
+import path from 'path'
 
 dotenv.config()
 
@@ -13,6 +15,6 @@ export const DB = new DataSource({
     database: process.env["DATABASE_NAME"],
     logging: true,
     // synchronize: true, // Must remove on production (use migrations)
-    entities: ["src/models/**/*.ts"],
-    migrations: ["src/migrations/**/*.ts"]
+    entities: [`${path.basename(__dirname)}/models/**/*`],
+    migrations: [`${path.basename(__dirname)}/migrations/**/*`]
 })
