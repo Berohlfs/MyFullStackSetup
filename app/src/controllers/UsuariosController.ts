@@ -79,6 +79,7 @@ class UsuariosController {
                     secure: process.env['ENV'] !== "dev" ? true : false,
                     httpOnly: true,
                     expires: new Date(Date.now() + 24 * 3600000),
+                    sameSite: 'none'
                 }).json({ tag: 'Cookie received.' })
             } else {
                 return res.status(400).json({ erro: 'Credenciais inválidas.' })
