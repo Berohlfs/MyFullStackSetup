@@ -6,6 +6,8 @@ import { Request, Response } from 'express'
 // TypeORM
 import { Usuario } from '../models/Usuario'
 import { DB } from '../db'
+// Scripts
+import { responseMessage } from '../scripts/responseMessage'
 
 const usuarioRepository = DB.getRepository(Usuario)
 
@@ -21,7 +23,7 @@ class UsuariosController {
 
             const valid = await validation.isValid(req.body)
 
-            if (!valid) { return res.status(400).json({ erro: 'Dados inválidos.' }) }
+            if (!valid) { return res.status(400).json(responseMessage('Dados inválidos.')) }
 
             const { email, senha } = req.body
 
@@ -31,7 +33,7 @@ class UsuariosController {
                 }
             })
 
-            if (exists) { return res.status(409).json({ erro: 'E-mail já cadastrado.' }) }
+            if (exists) { return res.status(409).json(responseMessage('E-mail já cadastrado.')) }
 
             const hash = await bcrypt.hash(senha, 13)
 
@@ -42,10 +44,13 @@ class UsuariosController {
 
             const data = await usuarioRepository.save(usuario)
 
-            return res.status(201).json(data)
+            delete data.id
+            delete data.senha
+
+            return res.status(201).json(responseMessage('Usuário criado.', data))
         } catch (erro) {
             console.error(erro)
-            return res.status(500).json({ erro: 'Internal Server Error.' })
+            return res.status(500).json(responseMessage('Erro interno de servidor.'))
         }
     }
 
@@ -58,7 +63,7 @@ class UsuariosController {
 
             const valid = await validation.isValid(req.body)
 
-            if (!valid) { return res.status(400).json({ erro: 'Dados inválidos.' }) }
+            if (!valid) { return res.status(400).json(responseMessage('Dados inválidos.')) }
 
             const { senha, email } = req.body
 
@@ -68,26 +73,30 @@ class UsuariosController {
                 }
             })
 
-            if (!usuario) { return res.status(404).json({ erro: 'Usuário inexistente.' }) }
+            if (!usuario) { return res.status(404).json(responseMessage('Usuário inexistente.')) }
 
             const match = await bcrypt.compare(senha, usuario.senha)
 
             if (match) {
+
                 const token = jwt.sign({usuario_id: usuario.id}, process.env['ACCESS_SECRET'], {expiresIn: '1d'})
 
                 return res.status(201).cookie("ACCESS_TOKEN", 'Bearer ' + token, {
+
                     secure: process.env['ENV'] !== "dev" ? true : false,
                     httpOnly: true,
                     expires: new Date(Date.now() + 24 * 3600000),
                     sameSite: 'none'
-                }).json({ tag: 'Cookie received.' })
+
+                }).json(responseMessage('Login realizado com sucesso.'))
+
             } else {
-                return res.status(400).json({ erro: 'Credenciais inválidas.' })
+                return res.status(400).json(responseMessage('Credenciais inválidas.'))
             }
 
         } catch (erro) {
             console.error(erro)
-            return res.status(500).json({ erro: 'Internal Server Error.' })
+            return res.status(500).json(responseMessage('Erro interno de servidor.'))
         }
     }
 
