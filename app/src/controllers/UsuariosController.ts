@@ -86,7 +86,7 @@ class UsuariosController {
                     secure: process.env['ENV'] !== "dev" ? true : false,
                     httpOnly: true,
                     expires: new Date(Date.now() + 24 * 3600000),
-                    sameSite: 'none'
+                    sameSite: process.env['SAME_SITE'] as any
 
                 }).json(responseMessage('Login realizado com sucesso.'))
 

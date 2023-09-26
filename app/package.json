@@ -30,9 +30,9 @@
     "yup": "^1.2.0"
   },
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "dev": "nodemon src/index.ts",
     "typeorm": "typeorm-ts-node-commonjs",
     "build": "tsc",
-    "production": "node build/index.js"
+    "start": "node build/index.js"
   }
 }
