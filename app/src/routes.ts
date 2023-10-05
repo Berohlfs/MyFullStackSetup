@@ -9,12 +9,13 @@ import { mailer } from './scripts/nodemailer'
 
 const routes = Router()
 
-
+// Public routes
 routes.post('/login', UsuariosController.login)
 routes.post('/cadastro', UsuariosController.create)
 
 routes.use(authMiddleware)
 
+// Authenticated routes
 routes.get('/token', (req, res)=> res.json(req.body.usuario_id))
 routes.get('/mail', async(req, res)=> {
     try{
