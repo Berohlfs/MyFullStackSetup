@@ -81,14 +81,7 @@ class UsuariosController {
 
                 const token = jwt.sign({usuario_id: usuario.id}, process.env['ACCESS_SECRET'], {expiresIn: '1d'})
 
-                return res.status(201).cookie("ACCESS_TOKEN", 'Bearer ' + token, {
-
-                    secure: process.env['ENV'] !== "dev" ? true : false,
-                    httpOnly: true,
-                    expires: new Date(Date.now() + 24 * 3600000),
-                    sameSite: process.env['SAME_SITE'] as any
-
-                }).json(responseMessage('Login realizado com sucesso.'))
+                return res.status(201).json(responseMessage('Login realizado com sucesso.', {token: token}))
 
             } else {
                 return res.status(400).json(responseMessage('Credenciais inválidas.'))

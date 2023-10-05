@@ -15,11 +15,13 @@ type Decoded = {
 
 export default (req: Request, res: Response, next: NextFunction)=>{
 
-    const cookie = req.cookies.ACCESS_TOKEN
+    const token = req.headers['authorization']
 
-    if(!cookie){return res.status(401).json(responseMessage('Token não fornecido.'))}
+    // console.log(token)
 
-    jwt.verify(cookie.split(' ')[1], process.env['ACCESS_SECRET'], (erro: jwt.VerifyErrors | null, decoded: Decoded | undefined)=>{
+    if(!token){return res.status(401).json(responseMessage('Token não fornecido.'))}
+
+    jwt.verify(token.split(' ')[1], process.env['ACCESS_SECRET'], (erro: jwt.VerifyErrors | null, decoded: Decoded | undefined)=>{
 
         if(erro){return res.status(401).json(responseMessage('Token inválido.'))}
 
