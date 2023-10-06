@@ -9,21 +9,26 @@ dotenv.config()
 
 type Decoded = {
     usuario_id: string,
+    remote_address: string,
     iat: number,
     ext: number
 }
 
-export default (req: Request, res: Response, next: NextFunction)=>{
+export const authMiddleware = (req: Request, res: Response, next: NextFunction)=>{
 
-    const token = req.headers['authorization']
+    const token = req.headers['authorization'].split(' ')[1]
 
     // console.log(token)
 
     if(!token){return res.status(401).json(responseMessage('Token não fornecido.'))}
 
-    jwt.verify(token.split(' ')[1], process.env['ACCESS_SECRET'], (erro: jwt.VerifyErrors | null, decoded: Decoded | undefined)=>{
+    jwt.verify(token, process.env['ACCESS_SECRET'], (erro: jwt.VerifyErrors | null, decoded: Decoded | undefined)=>{
 
         if(erro){return res.status(401).json(responseMessage('Token inválido.'))}
+
+        if(decoded.remote_address != req.socket.remoteAddress){return res.status(401).json(responseMessage('Token inválido.'))}
+
+        // console.log('decoded' + decoded.remote_address, 'ip' + req.socket.remoteAddress)
 
         req.body.usuario_id = decoded.usuario_id
 

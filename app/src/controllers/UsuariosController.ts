@@ -79,7 +79,7 @@ class UsuariosController {
 
             if (match) {
 
-                const token = jwt.sign({usuario_id: usuario.id}, process.env['ACCESS_SECRET'], {expiresIn: '1d'})
+                const token = jwt.sign({usuario_id: usuario.id, remote_address: req.socket.remoteAddress}, process.env['ACCESS_SECRET'], {expiresIn: '1d'})
 
                 return res.status(201).json(responseMessage('Login realizado com sucesso.', {token: token}))
 

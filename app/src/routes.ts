@@ -3,9 +3,10 @@ import { Router } from 'express'
 // Controllers
 import UsuariosController from './controllers/UsuariosController'
 // Middlewares
-import authMiddleware from './middlewares/auth'
+import { authMiddleware } from './middlewares/auth'
 // Scripts
 import { mailer } from './scripts/nodemailer'
+import { responseMessage } from './scripts/responseMessage'
 
 const routes = Router()
 
@@ -26,7 +27,7 @@ routes.get('/mail', async(req, res)=> {
     }
 })
 
-routes.use((req, res)=> res.status(404).json('Resource Not Found'))
+routes.use((req, res)=> res.status(404).json(responseMessage('Resource Not Found')))
 
 
 export default routes
