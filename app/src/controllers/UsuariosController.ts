@@ -3,13 +3,12 @@ import bcrypt from 'bcrypt'
 import * as yup from 'yup'
 import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express'
-// TypeORM
-import { Usuario } from '../models/Usuario'
-import { DB } from '../db'
 // Scripts
 import { responseMessage } from '../scripts/responseMessage'
+// Prisma
+import { PrismaClient, Prisma } from '@prisma/client'
 
-const usuarioRepository = DB.getRepository(Usuario)
+const prisma = new PrismaClient()
 
 class UsuariosController {
 
@@ -17,7 +16,7 @@ class UsuariosController {
         try {
             const validation = yup.object({
                 senha: yup.string().required(),
-                confirmacaoSenha: yup.string().oneOf([yup.ref('senha'), null]).required(),
+                confirmacaoSenha: yup.string().oneOf([yup.ref('senha')]).required(),
                 email: yup.string().required().email(),
             })
 
@@ -27,29 +26,16 @@ class UsuariosController {
 
             const { email, senha } = req.body
 
-            const exists = await usuarioRepository.findOne({
-                where: {
-                    email
-                }
-            })
-
-            if (exists) { return res.status(409).json(responseMessage('E-mail já cadastrado.')) }
-
             const hash = await bcrypt.hash(senha, 13)
 
-            const usuario = new Usuario()
+            const usuario = await prisma.usuario.create({data: { email, senha: hash }})
 
-            usuario.email = email
-            usuario.senha = hash
-
-            const data = await usuarioRepository.save(usuario)
-
-            delete data.id
-            delete data.senha
-
-            return res.status(201).json(responseMessage('Usuário criado.', data))
-        } catch (erro) {
-            console.error(erro)
+            return res.status(201).json(responseMessage('Usuário criado.', usuario))
+        } catch (error) {
+            console.error(error)
+            if(error instanceof Prisma.PrismaClientKnownRequestError){
+                if(error.code === 'P2002'){ return res.status(409).json(responseMessage('Esse e-mail já é cadastrado.')) }
+            }
             return res.status(500).json(responseMessage('Erro interno de servidor.'))
         }
     }
@@ -67,7 +53,7 @@ class UsuariosController {
 
             const { senha, email } = req.body
 
-            const usuario = await usuarioRepository.findOne({
+            const usuario = await prisma.usuario.findUnique({
                 where: {
                     email
                 }
@@ -79,7 +65,7 @@ class UsuariosController {
 
             if (match) {
 
-                const token = jwt.sign({usuario_id: usuario.id, remote_address: req.socket.remoteAddress}, process.env['ACCESS_SECRET'], {expiresIn: '1d'})
+                const token = jwt.sign({usuario_id: usuario.id, remote_address: req.socket.remoteAddress}, process.env['ACCESS_SECRET'] as string, {expiresIn: '1d'})
 
                 return res.status(201).json(responseMessage('Login realizado com sucesso.', {token: token}))
 

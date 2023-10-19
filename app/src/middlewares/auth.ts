@@ -1,36 +1,31 @@
 // Libs
 import dotenv from 'dotenv'
-import jwt from 'jsonwebtoken'
+import jwt, { VerifyErrors, JwtPayload } from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 // Scripts
 import { responseMessage } from '../scripts/responseMessage'
 
 dotenv.config()
 
-type Decoded = {
-    usuario_id: string,
-    remote_address: string,
-    iat: number,
-    ext: number
-}
-
 export const authMiddleware = (req: Request, res: Response, next: NextFunction)=>{
 
-    const token = req.headers['authorization'].split(' ')[1]
+    const token = req.headers['authorization'] ? req.headers['authorization'].split(' ')[1] : false
 
     // console.log(token)
 
-    if(!token){return res.status(401).json(responseMessage('Token não fornecido.'))}
+    if(token === false){return res.status(401).json(responseMessage('Token não fornecido.'))}
 
-    jwt.verify(token, process.env['ACCESS_SECRET'], (erro: jwt.VerifyErrors | null, decoded: Decoded | undefined)=>{
+    jwt.verify(token, process.env['ACCESS_SECRET'] as string, (erro: VerifyErrors | null, decoded: string | undefined | JwtPayload)=>{
 
         if(erro){return res.status(401).json(responseMessage('Token inválido.'))}
 
-        if(decoded.remote_address != req.socket.remoteAddress){return res.status(401).json(responseMessage('Token inválido.'))}
+        if(typeof decoded === 'object'){
 
-        // console.log('decoded' + decoded.remote_address, 'ip' + req.socket.remoteAddress)
+            if(decoded.remote_address != req.socket.remoteAddress || !decoded.usuario_id){return res.status(401).json(responseMessage('Token inválido.'))}
 
-        req.body.usuario_id = decoded.usuario_id
+            req.body.usuario_id = decoded.usuario_id
+
+        }
 
         next()
 

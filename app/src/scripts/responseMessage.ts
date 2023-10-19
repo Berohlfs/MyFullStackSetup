@@ -1,10 +1,10 @@
-export const responseMessage = (message: string, query: any = [])=> {
+export const responseMessage = (message: string, query?: any)=> {
 
     return (
 
         {
-            message: message,
-            query: query
+            message,
+            query
         }
 
     )

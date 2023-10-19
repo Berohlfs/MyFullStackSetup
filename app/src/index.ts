@@ -1,5 +1,4 @@
-// DB Condig
-import { DB } from "./db"
+
 // Libs
 import express from 'express'
 import cors from 'cors'
@@ -11,7 +10,9 @@ const cors_config = {
 }
 
 class App {
+
     server: express.Application
+
     constructor() {
         this.server = express()
         this.middlewares()
@@ -23,13 +24,6 @@ class App {
     }
 }
 
-DB.initialize().then(async () => {
+const app = new App()
 
-    const app = new App()
-
-    app.server.listen(
-        process.env["PORT"],
-        () => console.log("Server on.")
-    )
-
-}).catch(error => console.log(error))
+app.server.listen('5500', ()=> console.log('Server up on port 5500.'))
