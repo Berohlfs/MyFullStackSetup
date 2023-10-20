@@ -11,7 +11,15 @@ datasource db {
 }
 
 model Usuario {
-  id String @id @default(uuid())
-  email String @unique
-  senha String
+  id     String  @id @default(uuid())
+  email  String  @unique
+  senha  String
+  carros Carro[]
+}
+
+model Carro {
+  id        String  @id @default(uuid())
+  apelido   String
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId String
 }

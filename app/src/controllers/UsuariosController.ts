@@ -12,6 +12,22 @@ const prisma = new PrismaClient()
 
 class UsuariosController {
 
+    async index(req: Request, res: Response) {
+        try {
+
+            const usuarios = await prisma.usuario.findMany({
+                include: {
+                    carros: true
+                }
+            })
+
+            return res.status(200).json(responseMessage('Listagem de usuários.', usuarios))
+        } catch (error) {
+            console.error(error)
+            return res.status(500).json(responseMessage('Erro interno de servidor.'))
+        }
+    }
+
     async create(req: Request, res: Response) {
         try {
             const validation = yup.object({

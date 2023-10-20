@@ -2,6 +2,7 @@
 import { Router } from 'express'
 // Controllers
 import UsuariosController from './controllers/UsuariosController'
+import CarrosController from './controllers/CarrosController'
 // Middlewares
 import { authMiddleware } from './middlewares/auth'
 // Scripts
@@ -12,6 +13,9 @@ const routes = Router()
 // Public routes
 routes.post('/login', UsuariosController.login)
 routes.post('/cadastro', UsuariosController.create)
+routes.get('/usuarios', UsuariosController.index)
+
+routes.post('/carros', CarrosController.create)
 
 routes.use(authMiddleware)
 
