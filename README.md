@@ -16,6 +16,8 @@ Meu mini framework pessoal de Node.js.
 * `prisma` para utilizar o CLI do Prisma ORM.
 * `@prisma/client` para efetuar consultas ao banco de dados por meio do Prisma ORM.
 * `nodemailer` para disparos de e-mails.
+* `multer` para recebimento e gestão de arquivos.
+* `sharp` para compressão e redimensionamento de imagens.
 
 # Extensões do VSCode recomendadas
 
