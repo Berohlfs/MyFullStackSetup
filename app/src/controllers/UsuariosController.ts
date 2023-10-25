@@ -4,7 +4,7 @@ import * as yup from 'yup'
 import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express'
 // Scripts
-import { responseMessage } from '../scripts/responseMessage'
+import { responseMessage } from '../scripts/utils'
 // Prisma
 import { PrismaClient, Prisma } from '@prisma/client'
 
@@ -81,7 +81,7 @@ class UsuariosController {
 
             if (match) {
 
-                const token = jwt.sign({usuario_id: usuario.id, remote_address: req.socket.remoteAddress}, process.env['ACCESS_SECRET'] as string, {expiresIn: '1d'})
+                const token = jwt.sign({usuario_id: usuario.id}, process.env.ACCESS_SECRET as string, {expiresIn: '1d'})
 
                 return res.status(201).json(responseMessage('Login realizado com sucesso.', {token: token}))
 

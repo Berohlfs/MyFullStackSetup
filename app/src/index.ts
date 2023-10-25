@@ -1,4 +1,3 @@
-
 // Libs
 import express from 'express'
 import cors from 'cors'
@@ -6,7 +5,7 @@ import cors from 'cors'
 import routes from './routes'
 
 const cors_config = {
-    origin: process.env['ORIGIN'],
+    origin: process.env.ORIGIN,
 }
 
 class App {
@@ -26,4 +25,4 @@ class App {
 
 const app = new App()
 
-app.server.listen('5500', ()=> console.log('Server up on port 5500.'))
+app.server.listen(process.env.PORT, ()=> console.log(`Server up on port ${process.env.PORT}.`))

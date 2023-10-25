@@ -1,10 +1,8 @@
 // Libs
-import bcrypt from 'bcrypt'
 import * as yup from 'yup'
-import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express'
 // Scripts
-import { responseMessage } from '../scripts/responseMessage'
+import { responseMessage } from '../scripts/utils'
 // Prisma
 import { PrismaClient, Prisma } from '@prisma/client'
 

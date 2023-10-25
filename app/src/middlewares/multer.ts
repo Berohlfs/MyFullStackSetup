@@ -1,9 +1,10 @@
 // Libs
 import multer from 'multer'
 import { resolve, extname } from 'path'
-import { Request, Response, NextFunction, query } from 'express'
+import { Request, Response, NextFunction } from 'express'
 // Scripts
-import { responseMessage } from '../scripts/responseMessage'
+import { responseMessage } from '../scripts/utils'
+import { generateUniqueFileName } from '../scripts/utils'
 
 const storage = multer.diskStorage({
 
@@ -11,9 +12,7 @@ const storage = multer.diskStorage({
 
     filename: (req, file, cb) => {
 
-        const unique_suffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-
-        return cb(null, file.fieldname + '-' + unique_suffix + extname(file.originalname))
+        return cb(null, generateUniqueFileName() + extname(file.originalname))
 
     }
 
@@ -22,19 +21,19 @@ const storage = multer.diskStorage({
 export const uploadSingleImageMiddleware = (req: Request, res: Response, next: NextFunction)=> {
 
     const store = multer({
-        storage: storage,
+        storage: multer.memoryStorage(), // ou 'storage'
         limits: {
-            fileSize: (2**20) * 30 // 30 MegaBytes
+            fileSize: (2**20) * 30 // 30 MegaBytese
         }
     }).single('image')
 
     store(req, res, (error) => {
 
-        if(error instanceof multer.MulterError) {
+        if(error) {
 
-            return res.status(400).json(responseMessage(`Erro durante o envio do arquivo.`, error.message))
-
-        }else if (error) {
+            if(error instanceof multer.MulterError){
+                return res.status(400).json(responseMessage(`Erro durante o envio do arquivo.`, error.message))
+            }
 
             return res.status(500).json(responseMessage('Erro interno de servidor.'))
 
