@@ -1,12 +1,15 @@
 // Libs
 import express from 'express'
 import cors from 'cors'
+import dotenv from 'dotenv'
 // Routes
 import routes from './routes'
 
 const cors_config = {
     origin: process.env.ORIGIN,
 }
+
+dotenv.config()
 
 class App {
 

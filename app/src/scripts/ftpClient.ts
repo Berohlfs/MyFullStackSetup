@@ -3,7 +3,7 @@ import * as ftp from 'basic-ftp'
 
 const client = new ftp.Client()
 
-client.ftp.verbose = process.env.FTP_VERBOSE === 'true' ? true : false
+client.ftp.verbose = true
 
 export const generateFtpClient = async()=> {
     try{
