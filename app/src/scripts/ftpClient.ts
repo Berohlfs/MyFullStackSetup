@@ -1,12 +1,11 @@
 // Libs
 import * as ftp from 'basic-ftp'
 
-const client = new ftp.Client()
-
-client.ftp.verbose = true
-
-export const generateFtpClient = async()=> {
+const generateFtpClient = async()=> {
     try{
+        const client = new ftp.Client()
+
+        client.ftp.verbose = true
 
         await client.access({
             host: process.env.FTP_HOST,
@@ -21,3 +20,5 @@ export const generateFtpClient = async()=> {
         throw 'Error while generating an FTP client.'
     }
 }
+
+export const ftpClient = generateFtpClient()

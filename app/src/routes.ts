@@ -25,9 +25,10 @@ const routes = Router()
 // Authenticated routes
 routes.use(authMiddleware)
 
-    routes.get('/token', (req, res)=> res.json(responseMessage(`User Id --> ${req.body.usuario_id}`)))
+    routes.get('/auth', (req, res)=> res.json(responseMessage(`${req.body.usuario_id}`)))
 
-    routes.use((req, res)=> res.status(404).json(responseMessage('Resource Not Found'))) // Fallback
+    // Fallback
+    routes.use((req, res)=> res.status(404).json(responseMessage('Recurso não encontrado.')))
 
 
 export default routes

@@ -79,11 +79,11 @@ class UsuariosController {
 
             const match = await bcrypt.compare(senha, usuario.senha)
 
-            if (match) {
+            if(match) {
 
                 const token = jwt.sign({usuario_id: usuario.id}, process.env.ACCESS_SECRET as string, {expiresIn: '1d'})
 
-                return res.status(201).json(responseMessage('Login realizado com sucesso.', {token: token}))
+                return res.status(201).json(responseMessage('Login realizado com sucesso.', token))
 
             } else {
                 return res.status(400).json(responseMessage('Credenciais inválidas.'))
