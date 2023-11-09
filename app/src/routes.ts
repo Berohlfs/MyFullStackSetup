@@ -14,21 +14,21 @@ const routes = Router()
 
 // Public routes
 
-    routes.post('/login', UsuariosController.login)
-    routes.post('/cadastro', UsuariosController.create)
-    routes.get('/usuarios', UsuariosController.index)
+routes.post('/login', UsuariosController.login)
+routes.post('/cadastro', UsuariosController.create)
+routes.get('/usuarios', UsuariosController.index)
 
-    routes.post('/carros', CarrosController.create)
+routes.post('/carros', CarrosController.create)
 
-    routes.post('/imagens', uploadSingleImageMiddleware, ImagensController.create)
+routes.post('/imagens', uploadSingleImageMiddleware, ImagensController.create)
 
 // Authenticated routes
+
 routes.use(authMiddleware)
 
-    routes.get('/auth', (req, res)=> res.json(responseMessage(`${req.body.usuario_id}`)))
+routes.get('/auth', (req, res) => res.json(responseMessage(`${req.body.usuario_id}`)))
 
-    // Fallback
-    routes.use((req, res)=> res.status(404).json(responseMessage('Recurso não encontrado.')))
-
+// Fallback
+routes.use((req, res) => res.status(404).json(responseMessage('Recurso não encontrado.')))
 
 export default routes

@@ -11,10 +11,8 @@ import { PrismaClient, Prisma } from '@prisma/client'
 const prisma = new PrismaClient()
 
 class UsuariosController {
-
     async index(req: Request, res: Response) {
         try {
-
             const usuarios = await prisma.usuario.findMany({
                 include: {
                     carros: true
@@ -32,25 +30,34 @@ class UsuariosController {
         try {
             const validation = yup.object({
                 senha: yup.string().required(),
-                confirmacaoSenha: yup.string().oneOf([yup.ref('senha')]).required(),
-                email: yup.string().required().email(),
+                confirmacaoSenha: yup
+                    .string()
+                    .oneOf([yup.ref('senha')])
+                    .required(),
+                email: yup.string().required().email()
             })
 
             const valid = await validation.isValid(req.body)
 
-            if (!valid) { return res.status(400).json(responseMessage('Dados inválidos.')) }
+            if (!valid) {
+                return res.status(400).json(responseMessage('Dados inválidos.'))
+            }
 
             const { email, senha } = req.body
 
             const hash = await bcrypt.hash(senha, 13)
 
-            const usuario = await prisma.usuario.create({data: { email, senha: hash }})
+            const usuario = await prisma.usuario.create({
+                data: { email, senha: hash }
+            })
 
             return res.status(201).json(responseMessage('Usuário criado.', usuario))
         } catch (error) {
             console.error(error)
-            if(error instanceof Prisma.PrismaClientKnownRequestError){
-                if(error.code === 'P2002'){ return res.status(409).json(responseMessage('Esse e-mail já é cadastrado.')) }
+            if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                if (error.code === 'P2002') {
+                    return res.status(409).json(responseMessage('Esse e-mail já é cadastrado.'))
+                }
             }
             return res.status(500).json(responseMessage('Erro interno de servidor.'))
         }
@@ -60,12 +67,14 @@ class UsuariosController {
         try {
             const validation = yup.object({
                 senha: yup.string().required(),
-                email: yup.string().required(),
+                email: yup.string().required()
             })
 
             const valid = await validation.isValid(req.body)
 
-            if (!valid) { return res.status(400).json(responseMessage('Dados inválidos.')) }
+            if (!valid) {
+                return res.status(400).json(responseMessage('Dados inválidos.'))
+            }
 
             const { senha, email } = req.body
 
@@ -75,26 +84,26 @@ class UsuariosController {
                 }
             })
 
-            if (!usuario) { return res.status(404).json(responseMessage('Usuário inexistente.')) }
+            if (!usuario) {
+                return res.status(404).json(responseMessage('Usuário inexistente.'))
+            }
 
             const match = await bcrypt.compare(senha, usuario.senha)
 
-            if(match) {
-
-                const token = jwt.sign({usuario_id: usuario.id}, process.env.ACCESS_SECRET as string, {expiresIn: '1d'})
+            if (match) {
+                const token = jwt.sign({ usuario_id: usuario.id }, process.env.ACCESS_SECRET as string, {
+                    expiresIn: '1d'
+                })
 
                 return res.status(201).json(responseMessage('Login realizado com sucesso.', token))
-
             } else {
                 return res.status(400).json(responseMessage('Credenciais inválidas.'))
             }
-
         } catch (erro) {
             console.error(erro)
             return res.status(500).json(responseMessage('Erro interno de servidor.'))
         }
     }
-
 }
 
 export default new UsuariosController()

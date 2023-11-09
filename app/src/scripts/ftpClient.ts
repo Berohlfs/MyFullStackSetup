@@ -1,8 +1,8 @@
 // Libs
 import * as ftp from 'basic-ftp'
 
-const generateFtpClient = async()=> {
-    try{
+const generateFtpClient = async () => {
+    try {
         const client = new ftp.Client()
 
         client.ftp.verbose = true
@@ -16,7 +16,7 @@ const generateFtpClient = async()=> {
         })
 
         return client
-    }catch(error){
+    } catch (error) {
         throw 'Error while generating an FTP client.'
     }
 }

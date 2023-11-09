@@ -6,13 +6,12 @@ import dotenv from 'dotenv'
 import routes from './routes'
 
 const cors_config = {
-    origin: process.env.ORIGIN,
+    origin: process.env.ORIGIN
 }
 
 dotenv.config()
 
 class App {
-
     server: express.Application
 
     constructor() {
@@ -28,4 +27,4 @@ class App {
 
 const app = new App()
 
-app.server.listen(process.env.PORT, ()=> console.log(`Server up on port ${process.env.PORT}.`))
+app.server.listen(process.env.PORT, () => console.log(`Server up on port ${process.env.PORT}.`))

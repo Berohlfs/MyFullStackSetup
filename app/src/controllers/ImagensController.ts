@@ -9,12 +9,10 @@ import { generateUniqueFileName } from '../scripts/utils'
 import { ftpClient } from '../scripts/ftpClient'
 
 class ImagensController {
-
-    async create(req: Request, res: Response){
-
+    async create(req: Request, res: Response) {
         const temp_file_name = generateUniqueFileName()
 
-        try{
+        try {
             await sharp(req.file?.buffer)
                 .rotate()
                 .webp()
@@ -26,23 +24,19 @@ class ImagensController {
             await client.uploadFrom(resolve(__dirname, '..', 'temp', temp_file_name), temp_file_name + '.webp')
 
             return res.status(200).json(responseMessage('Upload de imagem realizado com sucesso.'))
-
-        }catch(error){
-
+        } catch (error) {
             console.log(error)
             return res.status(500).json(responseMessage('Erro interno de servidor.'))
-
-        }finally{
-            fs.unlink(resolve(__dirname, '..', 'temp', temp_file_name), (error)=>{
-                if(error){
+        } finally {
+            fs.unlink(resolve(__dirname, '..', 'temp', temp_file_name), (error) => {
+                if (error) {
                     console.log('Failed to delete temp file.')
-                }else{
+                } else {
                     console.log('Temp file deleted.')
                 }
             })
         }
     }
-
 }
 
 export default new ImagensController()
