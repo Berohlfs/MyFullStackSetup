@@ -1,6 +1,6 @@
 // Libs
 import bcrypt from 'bcrypt'
-import * as yup from 'yup'
+import { z } from 'zod'
 import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express'
 // Scripts
@@ -28,18 +28,15 @@ class UsuariosController {
 
     async create(req: Request, res: Response) {
         try {
-            const validation = yup.object({
-                senha: yup.string().required(),
-                confirmacaoSenha: yup
-                    .string()
-                    .oneOf([yup.ref('senha')])
-                    .required(),
-                email: yup.string().required().email()
-            })
+            const validation = z
+                .object({
+                    senha: z.string().min(1),
+                    confirmacaoSenha: z.string().min(1),
+                    email: z.string().min(1).email()
+                })
+                .refine((data) => data.confirmacaoSenha === data.senha)
 
-            const valid = await validation.isValid(req.body)
-
-            if (!valid) {
+            if (validation.safeParse(req.body).success === false) {
                 return res.status(400).json(responseMessage('Dados inválidos.'))
             }
 
@@ -65,14 +62,12 @@ class UsuariosController {
 
     async login(req: Request, res: Response) {
         try {
-            const validation = yup.object({
-                senha: yup.string().required(),
-                email: yup.string().required()
+            const validation = z.object({
+                senha: z.string().min(1),
+                email: z.string().min(1)
             })
 
-            const valid = await validation.isValid(req.body)
-
-            if (!valid) {
+            if (validation.safeParse(req.body).success === false) {
                 return res.status(400).json(responseMessage('Dados inválidos.'))
             }
 

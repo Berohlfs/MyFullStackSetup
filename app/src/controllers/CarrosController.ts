@@ -1,5 +1,5 @@
 // Libs
-import * as yup from 'yup'
+import { z } from 'zod'
 import { Request, Response } from 'express'
 // Scripts
 import { responseMessage } from '../scripts/utils'
@@ -11,14 +11,12 @@ const prisma = new PrismaClient()
 class CarrosController {
     async create(req: Request, res: Response) {
         try {
-            const validation = yup.object({
-                apelido: yup.string().required(),
-                usuarioId: yup.string().required()
+            const validation = z.object({
+                apelido: z.string().min(1),
+                usuarioId: z.string().uuid()
             })
 
-            const valid = await validation.isValid(req.body)
-
-            if (!valid) {
+            if (validation.safeParse(req.body).success === false) {
                 return res.status(400).json(responseMessage('Dados inválidos.'))
             }
 

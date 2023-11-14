@@ -9,7 +9,7 @@ Meu mini framework pessoal de Node.js.
 * `dotenv` para facilitar o uso de variáveis de ambiente.
 * `express` para construir a API.
 * `jsonwebtoken` para autenticar usuários.
-* `yup` para validar a corpo das requisições.
+* `zod` para validar a corpo das requisições.
 * `nodemon` para manter o servidor ininterrupto durante o desenvolvimento.
 * `typescript` para incrementar tipagem estática e IntelliSense avançado ao projeto.
 * `ts-node` para transpilar o código de TypeScript para JavaScript durante o desenvolvimento.
