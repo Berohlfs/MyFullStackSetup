@@ -21,7 +21,7 @@ Meu mini framework pessoal de Node.js.
 * `basic-ftp` para amparar o envio de arquivos via protocolo FTP.
 * `express-rate-limit` para configurar e limitar a frequência de requisições vindas de um IP.
 
-# Extensões do VSCode recomendadas
+## Extensões do VSCode recomendadas
 
 * Prisma
 * REST Client
