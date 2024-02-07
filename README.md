@@ -23,3 +23,4 @@ Meu mini framework pessoal de Node.js.
 # Extensões do VSCode recomendadas
 
 * Prisma
+* REST Client

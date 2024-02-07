@@ -2,7 +2,7 @@
 import jwt, { VerifyErrors, JwtPayload } from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 // Scripts
-import { responseMessage } from '../scripts/utils'
+import { responseMessage } from '../utils/general'
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1]

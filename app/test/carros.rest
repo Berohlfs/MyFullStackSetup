@@ -1,0 +1,7 @@
+POST http://localhost:5500/carros
+Content-Type: application/json
+
+{
+    "apelido": "Volks",
+    "usuarioId": "266276e1-87d6-487a-b7ed-972678040212"
+}

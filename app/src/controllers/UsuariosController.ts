@@ -4,9 +4,9 @@ import { z } from 'zod'
 import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express'
 // Scripts
-import { responseMessage } from '../scripts/utils'
+import { responseMessage } from '../utils/general'
 // Prisma
-import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaClient, Prisma, type Usuario } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -26,7 +26,7 @@ class UsuariosController {
         }
     }
 
-    async create(req: Request, res: Response) {
+    async create(req: Request<unknown, unknown, Usuario>, res: Response) {
         try {
             const validation = z
                 .object({
@@ -60,7 +60,7 @@ class UsuariosController {
         }
     }
 
-    async login(req: Request, res: Response) {
+    async login(req: Request<unknown, unknown, Usuario>, res: Response) {
         try {
             const validation = z.object({
                 senha: z.string().min(1),

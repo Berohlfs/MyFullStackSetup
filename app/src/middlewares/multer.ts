@@ -3,8 +3,8 @@ import multer from 'multer'
 import { resolve, extname } from 'path'
 import { Request, Response, NextFunction } from 'express'
 // Scripts
-import { responseMessage } from '../scripts/utils'
-import { generateUniqueFileName } from '../scripts/utils'
+import { responseMessage } from '../utils/general'
+import { generateUniqueFileName } from '../utils/general'
 
 const storage = multer.diskStorage({
     destination: resolve(__dirname, '..', 'temp'),

@@ -2,14 +2,14 @@
 import { z } from 'zod'
 import { Request, Response } from 'express'
 // Scripts
-import { responseMessage } from '../scripts/utils'
+import { responseMessage } from '../utils/general'
 // Prisma
-import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaClient, Prisma, Carro } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
 class CarrosController {
-    async create(req: Request, res: Response) {
+    async create(req: Request<unknown, unknown, Carro>, res: Response) {
         try {
             const validation = z.object({
                 apelido: z.string().min(1),

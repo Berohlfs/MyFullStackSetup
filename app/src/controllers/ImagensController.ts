@@ -4,9 +4,9 @@ import sharp from 'sharp'
 import { resolve } from 'path'
 import fs from 'fs'
 // Scripts
-import { responseMessage } from '../scripts/utils'
-import { generateUniqueFileName } from '../scripts/utils'
-import { ftpClient } from '../scripts/ftpClient'
+import { responseMessage } from '../utils/general'
+import { generateUniqueFileName } from '../utils/general'
+import { ftpClient } from '../helpers/ftpClient'
 
 class ImagensController {
     async create(req: Request, res: Response) {
