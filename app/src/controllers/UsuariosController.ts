@@ -6,7 +6,7 @@ import { Request, Response } from 'express'
 // Scripts
 import { responseMessage } from '../utils/general'
 // Prisma
-import { PrismaClient, Prisma, type Usuario } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -26,7 +26,7 @@ class UsuariosController {
         }
     }
 
-    async create(req: Request<unknown, unknown, Usuario>, res: Response) {
+    async create(req: Request, res: Response) {
         try {
             const validation = z
                 .object({
@@ -40,7 +40,7 @@ class UsuariosController {
                 return res.status(400).json(responseMessage('Dados inválidos.'))
             }
 
-            const { email, senha } = req.body
+            const { email, senha } = req.body as z.infer<typeof validation>
 
             const hash = await bcrypt.hash(senha, 13)
 
@@ -60,7 +60,7 @@ class UsuariosController {
         }
     }
 
-    async login(req: Request<unknown, unknown, Usuario>, res: Response) {
+    async login(req: Request, res: Response) {
         try {
             const validation = z.object({
                 senha: z.string().min(1),
@@ -71,7 +71,7 @@ class UsuariosController {
                 return res.status(400).json(responseMessage('Dados inválidos.'))
             }
 
-            const { senha, email } = req.body
+            const { senha, email } = req.body as z.infer<typeof validation>
 
             const usuario = await prisma.usuario.findUnique({
                 where: {

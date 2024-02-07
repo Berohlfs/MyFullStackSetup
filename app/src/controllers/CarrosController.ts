@@ -4,12 +4,12 @@ import { Request, Response } from 'express'
 // Scripts
 import { responseMessage } from '../utils/general'
 // Prisma
-import { PrismaClient, Prisma, Carro } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
 class CarrosController {
-    async create(req: Request<unknown, unknown, Carro>, res: Response) {
+    async create(req: Request, res: Response) {
         try {
             const validation = z.object({
                 apelido: z.string().min(1),
@@ -20,7 +20,7 @@ class CarrosController {
                 return res.status(400).json(responseMessage('Dados inválidos.'))
             }
 
-            const { apelido, usuarioId } = req.body
+            const { apelido, usuarioId } = req.body as z.infer<typeof validation>
 
             const usuario = await prisma.carro.create({
                 data: { apelido, usuarioId: usuarioId }

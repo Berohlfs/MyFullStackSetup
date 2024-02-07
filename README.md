@@ -19,6 +19,7 @@ Meu mini framework pessoal de Node.js.
 * `multer` para auxiliar o recebimento de arquivos.
 * `sharp` para comprimir, redimensionar e converter imagens.
 * `basic-ftp` para amparar o envio de arquivos via protocolo FTP.
+* `express-rate-limit` para configurar e limitar a frequência de requisições vindas de um IP.
 
 # Extensões do VSCode recomendadas
 
