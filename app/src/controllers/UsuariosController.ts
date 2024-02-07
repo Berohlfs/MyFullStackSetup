@@ -86,7 +86,7 @@ class UsuariosController {
             const match = await bcrypt.compare(senha, usuario.senha)
 
             if (match) {
-                const token = jwt.sign({ usuario_id: usuario.id }, process.env.ACCESS_SECRET as string, {
+                const token = jwt.sign({ usuarioId: usuario.id }, process.env.ACCESS_SECRET as string, {
                     expiresIn: '1d'
                 })
 

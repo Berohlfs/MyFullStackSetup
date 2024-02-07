@@ -1,26 +1,18 @@
 // Libs
 import multer from 'multer'
-import { resolve, extname } from 'path'
 import { Request, Response, NextFunction } from 'express'
 // Scripts
 import { responseMessage } from '../utils/general'
-import { generateUniqueFileName } from '../utils/general'
 
-const storage = multer.diskStorage({
-    destination: resolve(__dirname, '..', 'temp'),
-
-    filename: (req, file, cb) => {
-        return cb(null, generateUniqueFileName() + extname(file.originalname))
-    }
-})
-
-export const uploadSingleImageMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const store = multer({
-        storage: multer.memoryStorage(), // ou 'storage'
+export const uploadSingleFileMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    const multer_obj = multer({
+        storage: multer.memoryStorage(),
         limits: {
             fileSize: 2 ** 20 * 30 // 30 MegaBytese
         }
-    }).single('image')
+    })
+
+    const store = multer_obj.single('file') // The 'single' method returns a new function
 
     store(req, res, (error) => {
         if (error) {

@@ -22,11 +22,11 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
             }
 
             if (typeof decoded === 'object') {
-                if (!decoded.usuario_id) {
+                if (!decoded.usuarioId) {
                     return res.status(401).json(responseMessage('Token inválido.'))
                 }
 
-                req.body.usuario_id = decoded.usuario_id
+                req.body.usuarioId = decoded.usuarioId
 
                 return next()
             } else {

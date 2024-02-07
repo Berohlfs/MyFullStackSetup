@@ -10,12 +10,13 @@ import { ftpClient } from '../helpers/ftpClient'
 
 class ImagensController {
     async create(req: Request, res: Response) {
+
         const temp_file_name = generateUniqueFileName()
 
         try {
             await sharp(req.file?.buffer)
-                .rotate()
                 .webp()
+                .rotate()
                 .resize(1000)
                 .toFile(resolve(__dirname, '..', 'temp', temp_file_name))
 
@@ -25,8 +26,14 @@ class ImagensController {
 
             return res.status(200).json(responseMessage('Upload de imagem realizado com sucesso.'))
         } catch (error) {
+            if(error instanceof Error){
+                if(error.message.includes('unsupported image format')){
+                    return res.status(400).json(responseMessage('Tipo de arquivo não suportado.'))
+                }
+                return res.status(500).json(responseMessage('Erro interno de servidor.', error))
+            }
             console.log(error)
-            return res.status(500).json(responseMessage('Erro interno de servidor.'))
+            return res.status(500).json(responseMessage('Erro interno de servidor.', error))
         } finally {
             fs.unlink(resolve(__dirname, '..', 'temp', temp_file_name), (error) => {
                 if (error) {
