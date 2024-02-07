@@ -1,7 +1,7 @@
 // Libs
 import jwt, { VerifyErrors, JwtPayload } from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
-// Scripts
+// Utils
 import { responseMessage } from '../utils/general'
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {

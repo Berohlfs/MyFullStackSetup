@@ -1,7 +1,7 @@
 // Libs
 import multer from 'multer'
 import { Request, Response, NextFunction } from 'express'
-// Scripts
+// Utils
 import { responseMessage } from '../utils/general'
 
 export const uploadSingleFileMiddleware = (req: Request, res: Response, next: NextFunction) => {

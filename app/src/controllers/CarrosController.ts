@@ -1,7 +1,7 @@
 // Libs
 import { z } from 'zod'
 import { Request, Response } from 'express'
-// Scripts
+// Utils
 import { responseMessage } from '../utils/general'
 // Prisma
 import { PrismaClient, Prisma } from '@prisma/client'

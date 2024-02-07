@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import sharp from 'sharp'
 import { resolve } from 'path'
 import fs from 'fs'
-// Scripts
+// Utils
 import { responseMessage } from '../utils/general'
 import { generateUniqueFileName } from '../utils/general'
 import { ftpClient } from '../helpers/ftpClient'

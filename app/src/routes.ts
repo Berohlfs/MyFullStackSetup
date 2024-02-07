@@ -7,7 +7,7 @@ import ImagensController from './controllers/ImagensController'
 // Middlewares
 import { authMiddleware } from './middlewares/auth'
 import { uploadSingleFileMiddleware } from './middlewares/multer'
-// Scripts
+// Utils
 import { responseMessage } from './utils/general'
 
 const routes = Router()

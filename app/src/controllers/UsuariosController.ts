@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import { z } from 'zod'
 import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express'
-// Scripts
+// Utils
 import { responseMessage } from '../utils/general'
 // Prisma
 import { PrismaClient, Prisma } from '@prisma/client'
@@ -18,6 +18,8 @@ class UsuariosController {
                     carros: true
                 }
             })
+
+            usuarios.forEach((usuario)=> {usuario.senha = ''; usuario.id = ''})
 
             return res.status(200).json(responseMessage('Listagem de usuários.', usuarios))
         } catch (error) {
