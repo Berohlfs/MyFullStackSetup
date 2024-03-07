@@ -1,7 +1,7 @@
 // Libs
 import * as ftp from 'basic-ftp'
 
-const generateFtpClient = async () => {
+export const generateFtpClient = async () => {
     try {
         const client = new ftp.Client()
 
@@ -12,13 +12,11 @@ const generateFtpClient = async () => {
             user: process.env.FTP_USER,
             port: Number(process.env.FTP_PORT),
             password: process.env.FTP_PASSWORD,
-            secure: process.env.TLS === 'false' ? false : true
+            secure: process.env.FTP_SECURE === 'false' ? false : true
         })
 
         return client
     } catch (error) {
-        throw 'Error while generating an FTP client.'
+        throw new Error('Error while generating an FTP client.')
     }
 }
-
-export const ftpClient = generateFtpClient()

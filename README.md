@@ -25,3 +25,26 @@ Meu mini framework pessoal de Node.js.
 
 * Prisma
 * REST Client
+
+## Mock .env file
+
+```
+DATABASE_URL="mysql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}"
+
+ORIGIN=""
+PORT=""
+
+ACCESS_SECRET=""
+
+FTP_HOST=""
+FTP_USER=""
+FTP_PORT=""
+FTP_PASSWORD=""
+FTP_SECURE="true"
+
+EMAIL_HOST=""
+EMAIL_PORT=""
+EMAIL_USER=""
+EMAIL_PASSWORD=""
+EMAIL_SECURE="true"
+```

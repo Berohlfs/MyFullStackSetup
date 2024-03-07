@@ -4,7 +4,7 @@ import { z } from 'zod'
 import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express'
 // Utils
-import { responseMessage } from '../utils/general'
+import { responseMessage, server_error_msg } from '../utils/general'
 // Prisma
 import { PrismaClient, Prisma } from '@prisma/client'
 
@@ -15,16 +15,16 @@ class UsuariosController {
         try {
             const usuarios = await prisma.usuario.findMany({
                 include: {
-                    carros: true
+                    posts: true
                 }
             })
 
-            usuarios.forEach((usuario)=> {usuario.senha = ''; usuario.id = ''})
+            usuarios.forEach((usuario)=> {usuario.senha = ''})
 
             return res.status(200).json(responseMessage('Listagem de usuários.', usuarios))
         } catch (error) {
             console.error(error)
-            return res.status(500).json(responseMessage('Erro interno de servidor.'))
+            return res.status(500).json(server_error_msg)
         }
     }
 
@@ -34,7 +34,7 @@ class UsuariosController {
                 .object({
                     senha: z.string().min(1),
                     confirmacaoSenha: z.string().min(1),
-                    email: z.string().min(1).email()
+                    email: z.string().min(1)
                 })
                 .refine((data) => data.confirmacaoSenha === data.senha)
 
@@ -50,15 +50,18 @@ class UsuariosController {
                 data: { email, senha: hash }
             })
 
+            usuario.senha = ''
+            usuario.id = ''
+
             return res.status(201).json(responseMessage('Usuário criado.', usuario))
         } catch (error) {
             console.error(error)
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === 'P2002') {
-                    return res.status(409).json(responseMessage('Esse e-mail já é cadastrado.'))
+                    return res.status(409).json(responseMessage('Este e-mail já é cadastrado.'))
                 }
             }
-            return res.status(500).json(responseMessage('Erro interno de servidor.'))
+            return res.status(500).json(server_error_msg)
         }
     }
 
@@ -82,23 +85,21 @@ class UsuariosController {
             })
 
             if (!usuario) {
-                return res.status(404).json(responseMessage('Usuário inexistente.'))
+                return res.status(400).json(responseMessage('Credenciais inválidas.'))
             }
 
             const match = await bcrypt.compare(senha, usuario.senha)
 
             if (match) {
-                const token = jwt.sign({ usuarioId: usuario.id }, process.env.ACCESS_SECRET as string, {
-                    expiresIn: '1d'
-                })
+                const token = jwt.sign({ usuarioId: usuario.id }, process.env.ACCESS_SECRET as string)
 
                 return res.status(201).json(responseMessage('Login realizado com sucesso.', token))
             } else {
                 return res.status(400).json(responseMessage('Credenciais inválidas.'))
             }
-        } catch (erro) {
-            console.error(erro)
-            return res.status(500).json(responseMessage('Erro interno de servidor.'))
+        } catch (error) {
+            console.error(error)
+            return res.status(500).json(server_error_msg)
         }
     }
 }

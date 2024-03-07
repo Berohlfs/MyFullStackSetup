@@ -8,3 +8,5 @@ export const responseMessage = (message: string, query?: any) => {
         query
     }
 }
+
+export const server_error_msg = responseMessage('Erro interno de servidor.')
