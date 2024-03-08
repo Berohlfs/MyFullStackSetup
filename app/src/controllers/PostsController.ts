@@ -31,9 +31,7 @@ class PostsController {
             console.error(error)
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === 'P2003') {
-                    return res
-                        .status(400)
-                        .json(responseMessage('Impossível vincular post a um usuário não existente.'))
+                    return res.status(400).json(responseMessage('Impossível vincular post a um usuário não existente.'))
                 }
             }
             return res.status(500).json(server_error_msg)

@@ -13,13 +13,13 @@ const cors_config = {
 dotenv.config()
 
 const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes.
-	limit: 100,
-	standardHeaders: 'draft-7', // combined `RateLimit` response header.
-	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+    windowMs: 15 * 60 * 1000, // 15 minutes.
+    limit: 100,
+    standardHeaders: 'draft-7', // combined `RateLimit` response header.
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
     message: {
-        message: "Número máximo de requisições atingido."
-    } as {message: string}
+        message: 'Número máximo de requisições atingido.'
+    } as { message: string }
 })
 
 class App {

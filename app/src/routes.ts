@@ -3,7 +3,7 @@ import { Router } from 'express'
 import sharp from 'sharp'
 // Controllers
 import UsuariosController from './controllers/UsuariosController'
-import CarrosController from './controllers/PostsController'
+import PostsController from './controllers/PostsController'
 // Middlewares
 import { authMiddleware } from './middlewares/auth'
 import { uploadSingleFileMiddleware } from './middlewares/multer'
@@ -29,10 +29,9 @@ routes.use(authMiddleware)
 
 routes.get('/usuarios', UsuariosController.index)
 
-routes.post('/carros', CarrosController.create)
+routes.post('/posts', PostsController.create)
 
-routes.post('/imagens', uploadSingleFileMiddleware, async(req, res)=> {
-
+routes.post('/imagens', uploadSingleFileMiddleware, async (req, res) => {
     const temp_file_name = generateUniqueFileName()
 
     try {
@@ -51,8 +50,8 @@ routes.post('/imagens', uploadSingleFileMiddleware, async(req, res)=> {
         return res.status(200).json(responseMessage('Upload de imagem realizado com sucesso.'))
     } catch (error) {
         console.error(error)
-        if(error instanceof Error){
-            if(error.message.includes('unsupported image format')){
+        if (error instanceof Error) {
+            if (error.message.includes('unsupported image format')) {
                 return res.status(400).json(responseMessage('Tipo de arquivo não suportado.'))
             }
             return res.status(400).json(responseMessage('Erro interno não mapeado.', error.message))
@@ -69,15 +68,15 @@ routes.post('/imagens', uploadSingleFileMiddleware, async(req, res)=> {
     }
 })
 
-routes.post('/email', async(req, res)=> {
-    try{
+routes.post('/email', async (req, res) => {
+    try {
         await mailer.send({
             to: 'berohlfs@gmail.com',
             subject: 'Teste',
             text: 'Isso é um teste.'
         })
         return res.status(200).json(responseMessage('E-mail enviado.'))
-    }catch(error){
+    } catch (error) {
         return res.status(500).json(server_error_msg)
     }
 })

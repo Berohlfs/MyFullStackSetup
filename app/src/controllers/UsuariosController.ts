@@ -19,7 +19,9 @@ class UsuariosController {
                 }
             })
 
-            usuarios.forEach((usuario)=> {usuario.senha = ''})
+            usuarios.forEach((usuario) => {
+                usuario.senha = ''
+            })
 
             return res.status(200).json(responseMessage('Listagem de usuários.', usuarios))
         } catch (error) {

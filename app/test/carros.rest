@@ -1,7 +1,0 @@
-POST http://localhost:5500/carros
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvSWQiOiI2OWIwZDdkMi1jNzllLTQ4OWMtODQzYy03ZmM3ZWNiZWVmOGQiLCJpYXQiOjE3MDczMjk5NjEsImV4cCI6MTcwNzQxNjM2MX0.zCn1SyP8dzH3p6i-AVi--8x66JlnDmn78kwlHgQE9ds
-
-{
-    "apelido": "Volks"
-}
