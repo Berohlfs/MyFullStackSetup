@@ -1,6 +1,6 @@
 {
-    "name": "Meza",
-    "dockerComposeFile": ["../docker-compose.dev.yaml"],
+    "name": "MyNodeFramework",
+    "dockerComposeFile": ["../app/docker-compose.dev.yaml"],
     "service": "api",
     "workspaceFolder": "/app",
     "customizations": {

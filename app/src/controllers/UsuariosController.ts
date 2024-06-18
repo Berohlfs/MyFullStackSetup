@@ -6,9 +6,8 @@ import { Request, Response } from 'express'
 // Utils
 import { responseMessage, server_error_msg } from '../utils/general'
 // Prisma
-import { PrismaClient, Prisma } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { Prisma } from '@prisma/client'
+import { prisma } from '../helpers/prismaClient'
 
 class UsuariosController {
     async index(req: Request, res: Response) {
@@ -32,12 +31,14 @@ class UsuariosController {
                 .object({
                     senha: z.string().min(1),
                     confirmacaoSenha: z.string().min(1),
-                    email: z.string().min(1)
+                    email: z.string().email()
                 })
                 .refine((data) => data.confirmacaoSenha === data.senha)
 
-            if (validation.safeParse(req.body).success === false) {
-                return res.status(400).json(responseMessage('Dados inválidos.'))
+            const validation_data = validation.safeParse(req.body)
+
+            if (validation_data.success === false) {
+                return res.status(400).json(responseMessage('Dados inválidos.', validation_data.error))
             }
 
             const { email, senha } = req.body as z.infer<typeof validation>
@@ -67,7 +68,7 @@ class UsuariosController {
         try {
             const validation = z.object({
                 senha: z.string().min(1),
-                email: z.string().email()
+                email: z.string().min(1)
             })
 
             const validation_data = validation.safeParse(req.body)

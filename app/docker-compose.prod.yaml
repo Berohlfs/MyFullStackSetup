@@ -3,7 +3,7 @@ services:
     build: 
       dockerfile: Dockerfile.prod
     container_name: api-prod
-    image: meza-api-prod
+    image: MNF-api-prod
     restart: unless-stopped
     depends_on: 
       - db

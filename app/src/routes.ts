@@ -1,6 +1,7 @@
 // Libs
 import { Router } from 'express'
 import sharp from 'sharp'
+import { Request, Response } from 'express'
 // Controllers
 import UsuariosController from './controllers/UsuariosController'
 // Middlewares
@@ -28,7 +29,7 @@ routes.use(authMiddleware)
 
 routes.get('/usuarios', UsuariosController.index)
 
-routes.post('/imagens', uploadSingleFileMiddleware, async (req, res) => {
+routes.post('/imagens', uploadSingleFileMiddleware, async (req: Request, res: Response) => {
     const temp_file_name = generateUniqueFileName()
 
     try {
@@ -65,7 +66,7 @@ routes.post('/imagens', uploadSingleFileMiddleware, async (req, res) => {
     }
 })
 
-routes.post('/email', async (req, res) => {
+routes.post('/email', async (req: Request, res: Response) => {
     try {
         await mailer.send({
             to: 'berohlfs@gmail.com',
@@ -79,6 +80,6 @@ routes.post('/email', async (req, res) => {
 })
 
 // Fallback
-routes.use((req, res) => res.status(404).json(responseMessage('Recurso não encontrado.')))
+routes.use((req: Request, res: Response) => res.status(404).json(responseMessage('Recurso não encontrado.')))
 
 export default routes

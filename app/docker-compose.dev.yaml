@@ -3,7 +3,7 @@ services:
     build: 
       dockerfile: Dockerfile.dev
     container_name: api-dev
-    image: meza-api-dev
+    image: MNF-api-dev
     restart: unless-stopped
     depends_on: 
       - db
@@ -13,7 +13,7 @@ services:
       - NODE_ENV=development
     volumes:
       - .:/app # Bind Mount: mounts the current directory
-      - /app/node_modules # Anonymous volume: prevents mounting node_modules and persists them inbetween container runtime
+      - node_modules_dev_vol:/app/node_modules # Anonymous volume: prevents mounting node_modules and persists them inbetween container runtime
     networks:
       - apidb
 
@@ -32,6 +32,7 @@ services:
 
 volumes:
   mysql_dev:
+  node_modules_dev_vol:
 
 networks:
     apidb:

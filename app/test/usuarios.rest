@@ -19,5 +19,5 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:5500/usuarios
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvSWQiOiIxNTFlMTZlZS1jOWMxLTQxZWUtYWNjZC05NGZjYTJmMWM5MTgiLCJpYXQiOjE3MDk5MzgwNjJ9.-9TlgXtKJH_79RX4MRKYI0qNZmDSZ8DtRloDat2abz4
+GET http://localhost:3000/usuarios
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvSWQiOiJhODg1NGUwMi1mYmU5LTQwYTktOTk2Ny04MzQ2NDgwMDAyNjUiLCJpYXQiOjE3MTg3NTIzMzZ9.1mi31vKpDWf5j5szkhUNaVzk6jLuH3IVRnP74u1kg7U

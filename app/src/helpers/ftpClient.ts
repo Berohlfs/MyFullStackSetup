@@ -12,7 +12,7 @@ export const generateFtpClient = async () => {
             user: process.env.FTP_USER,
             port: Number(process.env.FTP_PORT),
             password: process.env.FTP_PASSWORD,
-            secure: process.env.FTP_SECURE === 'false' ? false : true
+            secure: process.env.FTP_SECURE === 'true' ? true : false
         })
 
         return client
