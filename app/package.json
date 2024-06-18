@@ -4,29 +4,25 @@
     "main": "src/index.ts",
     "author": "Bernardo Rohlfs",
     "license": "MIT",
-    "prisma": {
-        "schema": "./src/prisma/schema.prisma"
-    },
     "devDependencies": {
-        "@types/bcrypt": "^5.0.2",
         "@types/cors": "^2.8.17",
         "@types/express": "^4.17.21",
         "@types/jsonwebtoken": "^9.0.5",
         "@types/multer": "^1.4.11",
         "@types/node": "^20.11.16",
         "@types/nodemailer": "^6.4.14",
-        "nodemon": "^3.0.3",
         "prettier": "^3.2.5",
         "prisma": "^5.9.1",
-        "ts-node": "^10.9.2",
-        "typescript": "^5.3.3"
+        "tsup": "^8.1.0",
+        "typescript": "^5.4.5"
     },
     "dependencies": {
         "@prisma/client": "^5.9.1",
+        "argon2": "^0.40.3",
         "basic-ftp": "^5.0.4",
-        "bcrypt": "^5.1.1",
         "cors": "^2.8.5",
-        "dotenv": "^16.4.1",
+        "dotenv": "^16.4.5",
+        "dotenv-cli": "^7.4.2",
         "express": "^4.18.2",
         "express-rate-limit": "^7.1.5",
         "jsonwebtoken": "^9.0.2",
@@ -36,8 +32,12 @@
         "zod": "^3.22.4"
     },
     "scripts": {
+        "db-push-dev": "dotenv -e .env.development -- prisma db push",
+        "db-pull-dev": "dotenv -e .env.development -- prisma db pull",
+        "db-push-prod": "dotenv -e .env.production -- prisma db push",
+        "db-pull-prod": "dotenv -e .env.production -- prisma db pull",
+        "dev": "tsup src --watch --onSuccess 'node dist/index.js'",
         "start": "node dist/index.js",
-        "dev": "nodemon src/index.ts",
-        "build": "tsc"
+        "build": "tsup src"
     }
 }

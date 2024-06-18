@@ -1,5 +1,5 @@
 // Libs
-import bcrypt from 'bcrypt'
+import argon2 from 'argon2'
 import { z } from 'zod'
 import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express'
@@ -13,11 +13,7 @@ const prisma = new PrismaClient()
 class UsuariosController {
     async index(req: Request, res: Response) {
         try {
-            const usuarios = await prisma.usuario.findMany({
-                include: {
-                    posts: true
-                }
-            })
+            const usuarios = await prisma.user.findMany()
 
             usuarios.forEach((usuario) => {
                 usuario.senha = ''
@@ -46,9 +42,9 @@ class UsuariosController {
 
             const { email, senha } = req.body as z.infer<typeof validation>
 
-            const hash = await bcrypt.hash(senha, 13)
+            const hash = await argon2.hash(senha)
 
-            const usuario = await prisma.usuario.create({
+            const usuario = await prisma.user.create({
                 data: { email, senha: hash }
             })
 
@@ -71,16 +67,18 @@ class UsuariosController {
         try {
             const validation = z.object({
                 senha: z.string().min(1),
-                email: z.string().min(1)
+                email: z.string().email()
             })
 
-            if (validation.safeParse(req.body).success === false) {
-                return res.status(400).json(responseMessage('Dados inválidos.'))
+            const validation_data = validation.safeParse(req.body)
+
+            if (validation_data.success === false) {
+                return res.status(400).json(responseMessage('Dados inválidos.', validation_data.error))
             }
 
             const { senha, email } = req.body as z.infer<typeof validation>
 
-            const usuario = await prisma.usuario.findUnique({
+            const usuario = await prisma.user.findUnique({
                 where: {
                     email
                 }
@@ -90,7 +88,7 @@ class UsuariosController {
                 return res.status(400).json(responseMessage('Credenciais inválidas.'))
             }
 
-            const match = await bcrypt.compare(senha, usuario.senha)
+            const match = await argon2.verify(usuario.senha, senha)
 
             if (match) {
                 const token = jwt.sign({ usuarioId: usuario.id }, process.env.ACCESS_SECRET as string)

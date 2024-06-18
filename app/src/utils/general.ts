@@ -2,10 +2,10 @@ export const generateUniqueFileName = () => {
     return Date.now() + '-' + Math.round(Math.random() * 1e9)
 }
 
-export const responseMessage = (message: string, query?: any) => {
+export const responseMessage = (message: string, data?: any) => {
     return {
         message,
-        query
+        data
     }
 }
 

@@ -3,7 +3,6 @@ import { Router } from 'express'
 import sharp from 'sharp'
 // Controllers
 import UsuariosController from './controllers/UsuariosController'
-import PostsController from './controllers/PostsController'
 // Middlewares
 import { authMiddleware } from './middlewares/auth'
 import { uploadSingleFileMiddleware } from './middlewares/multer'
@@ -28,8 +27,6 @@ routes.post('/cadastro', UsuariosController.create)
 routes.use(authMiddleware)
 
 routes.get('/usuarios', UsuariosController.index)
-
-routes.post('/posts', PostsController.create)
 
 routes.post('/imagens', uploadSingleFileMiddleware, async (req, res) => {
     const temp_file_name = generateUniqueFileName()

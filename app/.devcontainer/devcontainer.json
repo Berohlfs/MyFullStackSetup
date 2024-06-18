@@ -1,0 +1,15 @@
+{
+    "name": "Meza",
+    "dockerComposeFile": ["../docker-compose.dev.yaml"],
+    "service": "api",
+    "workspaceFolder": "/app",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "humao.rest-client",
+                "prisma.prisma"
+            ]
+        }
+    },
+    "shutdownAction": "none"
+}
