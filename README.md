@@ -1,6 +1,6 @@
 # MyNodeFramework
 
-Meu mini framework pessoal de Node.js.
+Meu mini framework pessoal de Node.js dockerizado.
 
 ## Libs utilizadas neste projeto
 
