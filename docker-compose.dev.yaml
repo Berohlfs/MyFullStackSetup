@@ -2,8 +2,9 @@ services:
   api: 
     build: 
       dockerfile: Dockerfile.dev
+      context: ./app
     container_name: api-dev
-    image: MNF-api-dev
+    image: mnf-api-dev
     restart: unless-stopped
     depends_on: 
       - db
@@ -11,9 +12,9 @@ services:
       - 3000:3000
     environment:
       - NODE_ENV=development
-    volumes:
-      - .:/app # Bind Mount: mounts the current directory
-      - node_modules_dev_vol:/app/node_modules # Anonymous volume: prevents mounting node_modules and persists them inbetween container runtime
+    volumes: # Volume section does not inherit the build's context defined above.
+      - ./app:/app # Bind mounts the host's 'app' directory to the container's 'app' folder (workdir).
+      - node_modules_dev_vol:/app/node_modules # Anonymous volume: prevents mounting node_modules and persists them inbetween container runtime.
     networks:
       - apidb
 
@@ -24,7 +25,7 @@ services:
     ports:
       - 8080:3306
     env_file:
-      - .env.development
+      - ./app/.env.development
     volumes: 
       - mysql_dev:/var/lib/mysql
     networks:

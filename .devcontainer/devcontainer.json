@@ -1,6 +1,6 @@
 {
     "name": "MyNodeFramework",
-    "dockerComposeFile": ["../app/docker-compose.dev.yaml"],
+    "dockerComposeFile": ["../docker-compose.dev.yaml"],
     "service": "api",
     "workspaceFolder": "/app",
     "customizations": {
