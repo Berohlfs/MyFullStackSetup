@@ -1,10 +1,22 @@
 services:
+  web:
+    build: 
+      dockerfile: Dockerfile.prod
+      context: ./app/web
+    container_name: web-prod
+    image: web:prod
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - 5000:3000
+
   api: 
     build: 
       dockerfile: Dockerfile.prod
       context: ./app/api
     container_name: api-prod
-    image: mnf-api-prod
+    image: api:prod
     restart: unless-stopped
     depends_on: 
       - db
@@ -22,7 +34,7 @@ services:
     ports:
       - 8080:3306
     env_file:
-      - ./app/api.env.production
+      - ./app/api/.env.production
     volumes: 
       - mysql_prod:/var/lib/mysql
     networks:

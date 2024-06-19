@@ -1,13 +1,14 @@
 {
-    "name": "MyNodeFramework",
-    "dockerComposeFile": ["../docker-compose.dev.yaml"],
+    "name": "api",
+    "dockerComposeFile": ["../../docker-compose.dev.yaml"],
     "service": "api",
     "workspaceFolder": "/app",
     "customizations": {
         "vscode": {
             "extensions": [
                 "humao.rest-client",
-                "prisma.prisma"
+                "prisma.prisma",
+                "pkief.material-icon-theme"
             ]
         }
     },
