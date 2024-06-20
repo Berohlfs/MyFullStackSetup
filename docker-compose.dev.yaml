@@ -13,6 +13,8 @@ services:
     volumes: # Volume section does not inherit the build's context defined above.
       - ./app/web:/app # Bind mounts the host's 'app' directory to the container's 'app' folder (workdir).
       - web_node_modules_dev_vol:/app/node_modules # Anonymous volume: prevents mounting node_modules and persists them inbetween container runtime.
+    networks:
+      - webapi
   api: 
     build: 
       dockerfile: Dockerfile.dev
@@ -31,6 +33,7 @@ services:
       - api_node_modules_dev_vol:/app/node_modules # ... ^ 
     networks:
       - apidb
+      - webapi
 
   db: 
     image: mysql:8.0
@@ -51,7 +54,9 @@ volumes:
   api_node_modules_dev_vol:
 
 networks:
-    apidb:
-        driver: bridge
+  apidb:
+    driver: bridge
+  webapi:
+    driver: bridge
 
 
